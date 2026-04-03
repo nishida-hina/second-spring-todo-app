@@ -7,9 +7,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class TodoController {
 	
 	
-	@GetMapping(value = "/todo/index")
+	@GetMapping
 	public String index() {
-		return "/todo/index";
+		return "index";
 	}
+	
+	@GetMapping("/login")
+	public String login() {
+		return "login";
+	}
+	
+	@GetMapping("/logout")
+	public String logout() {
+		return "index";
+	}
+	
+	
+	@GetMapping("/todo/main")
+	public String todos() {}
+	
+	
 
 }
