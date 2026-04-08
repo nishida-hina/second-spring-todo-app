@@ -1,15 +1,26 @@
 package com.example.demo.Controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.example.demo.Entity.Todo;
+import com.example.demo.Entity.User;
+import com.example.demo.Repository.TodoRepository;
+import com.example.demo.Repository.UserRepository;
 import com.example.demo.Service.CustomUserDetails;
-
-import ch.qos.logback.core.model.Model;
 
 @Controller
 public class TodoController {
+	
+	@Autowired
+	UserRepository userRepository;
+	@Autowired
+	TodoRepository todoRepository;
 	
 	
 	@GetMapping
@@ -27,14 +38,16 @@ public class TodoController {
 		return "index";
 	}
 	
-	
 	@GetMapping("/todo/main")
 	public String todos(Authentication auth, Model model) {
 		CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
-		String email = userDetails.getEmail();
-		return email;
-		
+		User user = userDetails.getUser();
+		List<Todo> todos = todoRepository.findByUser(user);
+		model.addAttribute("todos", todos);
+		return "todo/main";
 	}
+	
+	
 	
 	
 

@@ -21,7 +21,7 @@ dependencies{
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-web' // 修正：webmvcではなくweb
+	implementation 'org.springframework.boot:spring-boot-starter-web' 
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 	
 	compileOnly 'org.projectlombok:lombok'
@@ -31,8 +31,7 @@ dependencies{
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
-	// --- テスト設定：ここを修正しました ---
-	// これ1つで DataJpaTest も WebMvcTest も JUnit5 もすべて入ります
+	
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	
