@@ -21,7 +21,7 @@ public class UserRepositoryTest {
     void contextLoads() {
         
         User user = User.builder()
-                .user_name("Taro")
+                .username("Taro")
                 .password("pass")
                 .email("taro@test.com")
                 .build();
@@ -31,6 +31,6 @@ public class UserRepositoryTest {
         Optional<User> result = userRepository.findById(saved.getUser_id());
 
         assertTrue(result.isPresent());
-        assertEquals("Taro", result.get().getUser_name());
+        assertEquals("Taro", result.get().getUsername());
     }
 }

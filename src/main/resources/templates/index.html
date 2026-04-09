@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Index</title>
+
+<link rel="stylesheet"
+href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<style>
+#todocontainer {
+    margin-top: 50px;
+}
+</style>
+</head>
+
+<body>
+
+<section id="header">
+<nav class="navbar navbar-light bg-light">
+    <span class="navbar-brand">TODOS</span>
+</nav>
+</section>
+
+<section id="todocontainer">
+<h2 class="text-center">Welcome to Todo Manager</h2>
+
+<div class="d-flex justify-content-center mt-4">
+<form th:action="@{/login}" method="get">
+    <button class=" btn btn-success btn-lg">View Todos</button>
+</form>
+</div>
+</section>
+
+</body>
+</html>

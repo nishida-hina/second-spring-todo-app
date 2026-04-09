@@ -8,13 +8,13 @@
 <body>
     <h1>Todo List</h1>
 
-    <form id="todoForm">
+    <form method="post" action="/todo/add"  id="todoForm">
         <input type="text" id="title" placeholder="新しいTodo">
         <button type="submit">追加</button>
     </form>
 
     <ul id="todoList">
-        <li th:each="todo : ${todos}" th:id="'todo-' + ${todo.id}" th:text="${todo.title}"></li>
+        <li  th:text="${todo.title}"></li>
     </ul>
 
     <script src="/js/todo.js"></script>

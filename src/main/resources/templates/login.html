@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+		<title>Insert title here</title>
+
+		<link rel="stylesheet"
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+<body>
+	<div class="d-flex justify-content-center mt-4">
+	<form th:action="@{/login}" method="post">
+		<label for="username">Username:</label><br>
+		<input type="text" id="username" name="username" required><br>
+		<label for="password">Password:</label><br>
+		<input type="password" id="password" name="password" required><br>
+		<input type="submit" value="Submit" class="btn btn-success btn-lg mt-4 d-block mx-auto">
+	</form>
+	</div>
+
+</body>
+
+</html>
