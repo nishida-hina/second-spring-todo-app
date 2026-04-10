@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder 
 @Entity
-@Table(name="second_spring_todo")
+@Table(name="task")
 public class Todo {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +42,7 @@ public class Todo {
 	@Builder.Default
     private Integer status = 0; 
 	
-	@Column(name = "deleteFlg" ,nullable = false)
+	@Column(name = "delete_flg", nullable = false)
 	@Builder.Default
     private Integer deleteFlg = 0; 
 	

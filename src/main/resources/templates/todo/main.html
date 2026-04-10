@@ -5,23 +5,83 @@
 	<meta charset="UTF-8">
 	<title>Todo</title>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+	<style>
+		#todocontainer {
+			margin-top: 50px;
+		}
+	</style>
 </head>
 
 <body>
-	<h1>Todo List</h1>
+	<!-- ヘッダー -->
+	<nav class="navbar navbar-light bg-light">
+		<span class="navbar-brand">TODOS</span>
+		<a th:href="@{/logout}" class="btn btn-outline-danger">Logout</a>
+	</nav>
 
+	<div class="container" id="todocontainer">
+		<h2 class="text-center mb-4">Todo List</h2>
 
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>タイトル</th>
+					<th>説明</th>
+					<th>状態</th>
+					<th>更新</th>
+					<th>削除</th>
+				</tr>
+			</thead>
 
-	<form method="post" action="/todo/add" id="todoForm" name="title">
-		<input type="text" id="title" placeholder="新しいTodo">
-		<button type="submit">追加</button>
-	</form>
+			<tbody>
+				<tr th:each="todo : ${todos}">
+					<td th:text="${todo.task_id}"></td>
+					<td th:text="${todo.title}"></td>
+					<td th:text="${todo.description}"></td>
+					<td th:text="${todo.status == 1 ? '完了' : '未完了'}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 	
-	<div class="todos"></div>
+	<!-- モーダル -->
+	<div class="modal fade" id="modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5>新規Todo</h5>
+					</div>
+					
+					<div class="modal-body">
+						<form th:action="@{/todo/add}" method="post" id="todoForm">
+							
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 
-	<!--    <ul id="todoList">-->
-	<!--        <li  th:text="${todo.title}"></li>-->
-	<!--    </ul>-->
+
+
+		<form method="post" action="/todo/add" id="todoForm" name="title">
+			<input type="text" id="title" placeholder="新しいTodo">
+			<button type="submit">追加</button>
+		</form>
+
+		<div class="todos"></div>
+
+		<!--    <ul id="todoList">-->
+		<!--        <li  th:text="${todo.title}"></li>-->
+		<!--    </ul>-->
+		<script src="/todo.js"></script>
+	</body>
+
 	<script src="/todo.js"></script>
 </body>
 
