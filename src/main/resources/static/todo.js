@@ -1,17 +1,20 @@
-$('#todoForm').submit(function(e){
-    e.preventDefault(); 
+$(function() {
+    $('#todoForm').on("submit", function(e) {
+        e.preventDefault();
 
-    $.ajax({
-        url: $(this).attr("action"),
-        type: "POST",
-        data: {
-            title: $("#title").val()
-        },
-        success: function(todo){
-            $("#todoList").append(`<li>${todo}</li>`)
-        },
-        error: function(){
-            console.log("エラー");
-        }
+        $.ajax({
+            url: $(this).attr("action"),
+            type: "POST",
+            data: {
+                title: $("#title").val()
+            }
+        })
+		.done(function(data){
+			$(".todos").append(`<div>${data}</div>`);
+			$("#title").val("");
+		})
+		.fail(function(){
+			alert("error!");
+		})
     });
-});
+})

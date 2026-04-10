@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @Entity
-@Table(name="second_spring_todo")
+@Table(name="user")
 public class User {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
@@ -29,7 +29,7 @@ public class User {
 	@Column(name = "user_name" ,length = 50 ,nullable = false)
 	private String username;
 	
-	@Column(name = "password" ,length = 50 ,nullable = false)
+	@Column(name = "password" ,length = 100 ,nullable = false)
 	private String password;
 	
 	@Column(name = "email" ,length = 50 ,nullable = false)

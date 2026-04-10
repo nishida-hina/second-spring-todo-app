@@ -11,12 +11,11 @@ import com.example.demo.Entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-
 @Getter
 @AllArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
-    private final User user;
+	private final User user;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -32,14 +31,12 @@ public class CustomUserDetails implements UserDetails {
 	public String getUsername() {
 		return user.getUsername();
 	}
-	
+
 	public String getEmail() {
 		return user.getEmail();
 	}
-	
+
 	public Integer getUserId() {
 		return user.getUser_id();
 	}
 }
-
-
