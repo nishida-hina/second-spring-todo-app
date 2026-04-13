@@ -2,87 +2,90 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<title>Todo</title>
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>Todo</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
-	<style>
-		#todocontainer {
-			margin-top: 50px;
-		}
-	</style>
+    <style>
+        #todocontainer {
+            margin-top: 50px;
+        }
+    </style>
 </head>
 
 <body>
-	<!-- ヘッダー -->
-	<nav class="navbar navbar-light bg-light">
-		<span class="navbar-brand">TODOS</span>
-		<a th:href="@{/logout}" class="btn btn-outline-danger">Logout</a>
-	</nav>
+    <nav class="navbar navbar-light bg-light">
+        <span class="navbar-brand">TODOS</span>
+        <a th:href="@{/logout}" class="btn btn-outline-danger">Logout</a>
+    </nav>
 
-	<div class="container" id="todocontainer">
-		<h2 class="text-center mb-4">Todo List</h2>
+    <div class="container" id="todocontainer">
+        <h2 class="text-center mb-4">Todo List</h2>
+        <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#todoAdd">リストを追加</button>
 
-		<table class="table table-bordered">
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>タイトル</th>
-					<th>説明</th>
-					<th>状態</th>
-					<th>更新</th>
-					<th>削除</th>
-				</tr>
-			</thead>
-
-			<tbody>
-				<tr th:each="todo : ${todos}">
-					<td th:text="${todo.task_id}"></td>
-					<td th:text="${todo.title}"></td>
-					<td th:text="${todo.description}"></td>
-					<td th:text="${todo.status == 1 ? '完了' : '未完了'}"></td>
-				</tr>
-			</tbody>
-		</table>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>タイトル</th>
+                    <th>説明</th>
+                    <th>状態</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="todo : ${todos}">
+                    <td th:text="${todo.task_id}"></td>
+                    <td th:text="${todo.title}"></td>
+                    <td th:text="${todo.description}"></td>
+                    <td th:text="${todo.status == 1 ? '完了' : '未完了'}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+	<div class="todos">
+	    <div th:each="todo : ${todoList}" th:text="${todo.title}">既存のタスク</div>
 	</div>
-	
-	<!-- モーダル -->
-	<div class="modal fade" id="modal">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5>新規Todo</h5>
-					</div>
-					
-					<div class="modal-body">
-						<form th:action="@{/todo/add}" method="post" id="todoForm">
-							
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	
 
+                                         <!--  モーダル  -->
+    <div class="modal fade" id="todoAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Form</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+				<!-- body -->
+                <div class="modal-body">
+					<form class="px-4 pt-3 my-3" method="post" action="/todo/add" id="todoForm">
+						<div class="form-group mb-3">
+							<label>Title</label>
+							<input type="text" class="form-control" placeholder="タイトル" name="title">
+							<div class="text-danger"></div>
+						</div>
+						<div class="form-group mb-3">
+							<label>Description</label>
+							<input type="text" class="form-control" placeholder="内容" name="description" >
+							<div class="text-danger"></div>
+						</div>
+						
+					</form>
+                </div>
 
+                <div class="modal-footer">
+					<!-- 送信ボタン -->
+					<button type="submit" class="btn btn-success" value="Confirm">追加</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-		<form method="post" action="/todo/add" id="todoForm" name="title">
-			<input type="text" id="title" placeholder="新しいTodo">
-			<button type="submit">追加</button>
-		</form>
-
-		<div class="todos"></div>
-
-		<!--    <ul id="todoList">-->
-		<!--        <li  th:text="${todo.title}"></li>-->
-		<!--    </ul>-->
-		<script src="/todo.js"></script>
-	</body>
-
-	<script src="/todo.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    
+    <script src="/todo.js"></script>
 </body>
-
 </html>

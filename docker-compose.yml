@@ -1,0 +1,26 @@
+services:
+  # MySQLの設定（本番・持ち運び用DB）
+  db:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=todo_db
+    ports:
+      - "3308:3306"
+
+  # Javaアプリの設定
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      # ここで「本番用（MySQL用）の設定ファイルを使え」と指示しています
+      - SPRING_PROFILES_ACTIVE=prod
+      # 以下の設定で、ファイルの設定をさらに上書きして確実にMySQLに繋ぎます
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/todo_db
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_SHOW_SQL=true
