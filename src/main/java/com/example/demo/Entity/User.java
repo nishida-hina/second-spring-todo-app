@@ -10,6 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,6 +38,8 @@ public class User {
 	private String email;
 	
 	@OneToMany(mappedBy = "user")
+	@JsonIgnore
+	
 	private List<Todo> todos;
 
 }

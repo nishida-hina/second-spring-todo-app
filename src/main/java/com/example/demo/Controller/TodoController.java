@@ -17,9 +17,14 @@ import com.example.demo.Entity.User;
 import com.example.demo.Repository.TodoRepository;
 import com.example.demo.Repository.UserRepository;
 import com.example.demo.Service.CustomUserDetails;
+import com.example.demo.Service.TodoService;
+
+import lombok.RequiredArgsConstructor;
 
 @Controller
+@RequiredArgsConstructor
 public class TodoController {
+	private final TodoService todoService;
 
 	@Autowired
 	UserRepository userRepository;
@@ -58,11 +63,15 @@ public class TodoController {
 			@RequestParam String description,
 			@AuthenticationPrincipal CustomUserDetails currentUser,
 			Model model) {
-		
-		Todo todo = new Todo();
-		
-		model.addAttribute("todo", todo);
-		return todo;
+		User user = currentUser.getUser();
+		return todoService.save(title, description, user);
+	}
+	
+	@PostMapping("/todo/updateStatus")
+	@ResponseBody
+	public String updateStatus(@RequestParam Integer id, @RequestParam Integer status) {
+	    todoService.updateStatus(id, status);
+	    return "ok";
 	}
 
 }

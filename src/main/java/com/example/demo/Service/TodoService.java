@@ -5,6 +5,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.Entity.Todo;
+import com.example.demo.Entity.User;
 import com.example.demo.Repository.TodoRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -17,13 +18,22 @@ public class TodoService {
 	private final TodoRepository todoRepository;
 	
 	@Transactional
-	public Todo save(String title,String description, Integer userId) {
+	public Todo save(String title,String description, User user) {
 		Todo todo = new Todo();
         todo.setTitle(title);
         todo.setDescription(description);
-        todo.setTask_id(userId);
         todo.setStatus(0);
+        todo.setUser(user);
         return todoRepository.save(todo);
+	}
+	
+	@Transactional
+	public void updateStatus(Integer id, Integer status) {
+		Todo todo = todoRepository.findById(id)
+		        .orElseThrow(() -> new RuntimeException("Todo not found with id: " + id));
+		
+		todo.setStatus(status);
+		todoRepository.save(todo);
 	}
 
 }
