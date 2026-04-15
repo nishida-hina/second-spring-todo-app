@@ -73,5 +73,12 @@ public class TodoController {
 	    todoService.updateStatus(id, status);
 	    return "ok";
 	}
+	
+	@GetMapping("/todo/delete")
+	@ResponseBody
+	public Todo delete(@RequestParam int todo_id,@AuthenticationPrincipal CustomUserDetails currentUser) {
+		User user = currentUser.getUser();
+		return todoService.deleteSave(todo_id, user);
+	}
 
 }

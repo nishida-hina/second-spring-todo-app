@@ -26,7 +26,7 @@ public class Todo {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "task_id",nullable = false) 
-    private Integer task_id;
+    private Integer taskId;
 	
 	@ManyToOne
 	@JoinColumn(name = "user_id",nullable = false)
