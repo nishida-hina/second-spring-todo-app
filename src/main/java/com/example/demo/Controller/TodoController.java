@@ -2,16 +2,23 @@ package com.example.demo.Controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.Dto.ApiResponse;
+import com.example.demo.Dto.TodoForm;
 import com.example.demo.Entity.Todo;
 import com.example.demo.Entity.User;
 import com.example.demo.Repository.TodoRepository;
@@ -30,6 +37,8 @@ public class TodoController {
 	UserRepository userRepository;
 	@Autowired
 	TodoRepository todoRepository;
+	
+	
 
 	@GetMapping
 	public String index() {
@@ -51,20 +60,22 @@ public class TodoController {
 	public String todos(Authentication auth, Model model) {
 		CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
 		User user = userDetails.getUser();
-		List<Todo> todos = todoRepository.findByUser(user);
+		List<Todo> todos = todoRepository.findByUserAndDeleteFlg(user, 0);
 		model.addAttribute("todos", todos);
 		return "todo/main";
 	}
 
 	@PostMapping("/todo/add")
 	@ResponseBody
-	public Todo add(
-			@RequestParam String title,
-			@RequestParam String description,
+	public ResponseEntity<ApiResponse<?>> add(
+			@Valid @ModelAttribute TodoForm todoForm,
 			@AuthenticationPrincipal CustomUserDetails currentUser,
-			Model model) {
+			BindingResult bindingResult) {
 		User user = currentUser.getUser();
-		return todoService.save(title, description, user);
+		if (bindingResult.hasErrors()) {
+			return  ResponseEntity.badRequest().body(bindingResult.getFieldErrors());;
+        }
+		return todoService.save(todoForm, user);
 	}
 	
 	@PostMapping("/todo/updateStatus")

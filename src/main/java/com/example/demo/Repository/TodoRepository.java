@@ -14,6 +14,7 @@ import com.example.demo.Entity.User;
 public interface TodoRepository extends JpaRepository<Todo,Integer>{
 	List<Todo> findByUser(User user);
 	Optional<Todo> findByTaskIdAndUser(Integer taskId, User user);
+	List<Todo>findByUserAndDeleteFlg(User use, Integer deleteFlg );
 }
 
 
