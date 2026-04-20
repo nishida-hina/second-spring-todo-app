@@ -33,4 +33,6 @@ public class UserRepositoryTest {
         assertTrue(result.isPresent());
         assertEquals("Taro", result.get().getUsername());
     }
+    
+    
 }

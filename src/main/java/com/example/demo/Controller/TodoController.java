@@ -37,8 +37,6 @@ public class TodoController {
 	UserRepository userRepository;
 	@Autowired
 	TodoRepository todoRepository;
-	
-	
 
 	@GetMapping
 	public String index() {
@@ -54,7 +52,6 @@ public class TodoController {
 	public String logout() {
 		return "index";
 	}
-
 
 	@GetMapping("/todo/main")
 	public String todos(Authentication auth, Model model) {
@@ -73,21 +70,23 @@ public class TodoController {
 			BindingResult bindingResult) {
 		User user = currentUser.getUser();
 		if (bindingResult.hasErrors()) {
-			return  ResponseEntity.badRequest().body(bindingResult.getFieldErrors());;
-        }
-		return todoService.save(todoForm, user);
+			ApiResponse<?> response = ApiResponse.fail("Validation Error", bindingResult.getFieldErrors());
+			return ResponseEntity.badRequest().body(response);
+		}
+		Todo todo = todoService.save(todoForm, user);
+		return ResponseEntity.ok(ApiResponse.success(todo));
 	}
-	
+
 	@PostMapping("/todo/updateStatus")
 	@ResponseBody
 	public String updateStatus(@RequestParam Integer id, @RequestParam Integer status) {
-	    todoService.updateStatus(id, status);
-	    return "ok";
+		todoService.updateStatus(id, status);
+		return "ok";
 	}
-	
+
 	@GetMapping("/todo/delete")
 	@ResponseBody
-	public Todo delete(@RequestParam int todo_id,@AuthenticationPrincipal CustomUserDetails currentUser) {
+	public Todo delete(@RequestParam int todo_id, @AuthenticationPrincipal CustomUserDetails currentUser) {
 		User user = currentUser.getUser();
 		return todoService.deleteSave(todo_id, user);
 	}
