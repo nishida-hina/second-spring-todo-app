@@ -12,8 +12,8 @@ $(function() {
             type: "POST",
             data: $form.serialize()
         })
-            .done(function(data) {
-                addRow(data);
+            .done(function(response) {
+                addRow(response.data);
                 $form[0].reset();
                 $('#todoAdd').modal('hide');
             })
@@ -21,6 +21,46 @@ $(function() {
                 alert("保存に失敗しました。");
             });
     });
+	
+	// ==========================================
+	 // 行を追加する関数
+	 // ==========================================
+	 function addRow(todo) {
+	     const isChecked = todo.status === 1 ? 'checked' : '';
+	     const deleteBtn = (todo.deleteFlg === 0) ? `` : '';
+	     const html = `
+	        <tr>
+	            <td style="width: 70px;">${todo.taskId}</td>
+	            <td style="width: 20%;">${todo.title}</td>
+	            <td>${todo.description}</td>
+	            <td style="width: 200px;">
+	                <input type="checkbox" 
+	                       class="status-toggle"
+	                       ${isChecked} 
+	                       data-toggle="toggle" 
+	                       data-off="未完了" 
+	                       data-on="完了" 
+	                       data-onstyle="success" 
+	                       data-offstyle="secondary"
+	                       data-id="${todo.taskId}">
+	            </td>
+				<td class="text-center align-middle">
+				            ${deleteBtn}
+					<button
+							class="btn btn-danger delete-btn"
+							data-id="${todo.taskId}">
+							削除
+					</button>
+				 </td>
+	        </tr>`;
+
+
+	     const $newRow = $(html);
+	     $("table tbody").append($newRow);
+
+
+	     $newRow.find('.status-toggle').bootstrapToggle();
+	 }
 
     // ==========================================
     // 削除ボタン
@@ -90,43 +130,5 @@ $(function() {
     });
 
 
-    // ==========================================
-    // 行を追加する関数
-    // ==========================================
-    function addRow(todo) {
-        const isChecked = todo.status === 1 ? 'checked' : '';
-        const deleteBtn = (todo.deleteFlg === 0) ? `` : '';
-        const html = `
-	        <tr>
-	            <td style="width: 70px;">${todo.taskId}</td>
-	            <td style="width: 20%;">${todo.title}</td>
-	            <td>${todo.description}</td>
-	            <td style="width: 200px;">
-	                <input type="checkbox" 
-	                       class="status-toggle"
-	                       ${isChecked} 
-	                       data-toggle="toggle" 
-	                       data-off="未完了" 
-	                       data-on="完了" 
-	                       data-onstyle="success" 
-	                       data-offstyle="secondary"
-	                       data-id="${todo.taskId}">
-	            </td>
-				<td class="text-center align-middle">
-				            ${deleteBtn}
-					<button
-							class="btn btn-danger delete-btn"
-							data-id="${todo.taskId}">
-							削除
-					</button>
-				 </td>
-	        </tr>`;
-
-
-        const $newRow = $(html);
-        $("table tbody").append($newRow);
-
-
-        $newRow.find('.status-toggle').bootstrapToggle();
-    }
+ 
 });
