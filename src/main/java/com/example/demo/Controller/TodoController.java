@@ -63,17 +63,18 @@ public class TodoController {
 	}
 
 	@PostMapping("/todo/add")
-	@ResponseBody
 	public ResponseEntity<ApiResponse<?>> add(
-			@Valid @ModelAttribute TodoForm todoForm,
-			@AuthenticationPrincipal CustomUserDetails currentUser,
-			BindingResult bindingResult) {
+	        @Valid @ModelAttribute TodoForm todoForm,
+	        BindingResult bindingResult,
+	        @AuthenticationPrincipal CustomUserDetails currentUser) {
 		User user = currentUser.getUser();
 		if (bindingResult.hasErrors()) {
 			ApiResponse<?> response = ApiResponse.fail("Validation Error", bindingResult.getFieldErrors());
+			System.out.print("失敗");
 			return ResponseEntity.badRequest().body(response);
 		}
 		Todo todo = todoService.save(todoForm, user);
+		System.out.print("成功");
 		return ResponseEntity.ok(ApiResponse.success(todo));
 	}
 
